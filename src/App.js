@@ -22,7 +22,6 @@ import ManageHistory from './components/admin/ManageHistory';
 import ManageCategory from './components/admin/ManageCategory';
 import CategoryList from './components/admin/CategoryList'
 import Dashboard from './components/admin/Dashboard';
-import AddProduct from './components/admin/AddProduct';
 
 import ConfirmationPayment from './components/ConfirmationPayment';
 import Verify from './components/admin/Verify';
