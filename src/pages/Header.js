@@ -89,9 +89,9 @@ render() {
                             </DropdownToggle>
                             <DropdownMenu right>
                                 <DropdownItem onClick={this.onLogoutClick}>
-                                <NavLink href="#" onClick={this.onLogoutSelect}>
-                        <i className="fa fa-sign-out fa-lg"></i>
-                        &nbsp;Logout</NavLink>
+                                <Link to="#" onClick={this.onLogoutSelect}>
+                                <i className="fa fa-sign-out"></i>
+                        &nbsp;Logout</Link>
                                 </DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
@@ -137,14 +137,13 @@ render() {
                                 Hello, <p className="text-capitalize" style={{display:"inline"}}>{this.props.username}</p>
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem className="text-secondary"><i className="fas fa-user"></i> Profile</DropdownItem>
-                                <DropdownItem><Link to="/history" className="text-secondary"><i className="fas fa-history"></i> History Belanja </Link></DropdownItem>
-                                <DropdownItem><Link to="/confirmationpayment" className="text-secondary"><i className="fas fa-money-check-alt"></i> Konfirmasi Bayar</Link> </DropdownItem>
+                                <DropdownItem><Link to="/history" className="text-secondary"><i className="fa fa-history"></i> History Belanja </Link></DropdownItem>
+                                <DropdownItem><Link to="/confirmationpayment" className="text-secondary"><i className="fa fa-money"></i> Konfirmasi Bayar</Link> </DropdownItem>
                                 <DropdownItem divider />
                                 <DropdownItem onClick={this.onLogoutClick}>
-                                <NavLink href="#" onClick={this.onLogoutSelect}>
-                                <i className="fa fa-sign-out fa-lg"></i>
-                                &nbsp;Logout</NavLink>
+                                <Link to="#" onClick={this.onLogoutSelect}>
+                                <i className="fa fa-sign-out"></i>
+                                &nbsp;Logout</Link>
                                 </DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>

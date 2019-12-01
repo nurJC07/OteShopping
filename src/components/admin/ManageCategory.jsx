@@ -124,8 +124,8 @@ class ManageCategory extends Component {
                         <td>{item.id}</td>
                         <td>{item.namaCategory}</td>
                         <td><img src={`${API_URL}${item.image}`} alt={item.nama} width={100} /></td>
-                        <td><i className="text-primary text-center fa fa-pencil icons font-3xl d-block " title="Edit" onClick={() => this.setState({ selectedCategoryId: item.id })} /></td>
-                        <td><i className="text-danger text-center fa fa-trash fas font-l d-block" title="Delete" onClick={() => this.onBtnDeleteClick(item.id)} /></td>
+                        <td><button className="btn btn-success" onClick={() => this.setState({ selectedCategoryId: item.id })} style={{ fontSize: "14px" }}><i className="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</button></td>
+                        <td><button className="btn btn-danger"onClick={() => this.onBtnDeleteClick(item.id)} style={{ fontSize: "14px" }}><i className="fa fa-trash-o fa-lg" ></i> Delete</button></td>
                     </tr>
                 )
             }
@@ -135,8 +135,8 @@ class ManageCategory extends Component {
                     <td><input type="text" ref="EditCategory" defaultValue={item.namaCategory} /></td>
                     <td><CustomInput type="file" id="EditCategoryImage" name="EditCategoryImage" label={this.state.EditCategoryImage} onChange={this.onEditFileImageChange} /></td>
                     <td><img src={`${API_URL}${item.image}`} alt={item.nama} width={100} /></td>
-                    <td><input type="button" className="btn btn-primary" value="Save" onClick={() => this.onBtnUpdateClick(item.id)} /></td>
-                    <td><input type="button" className="btn btn-danger" value="Cancel" onClick={() => this.setState({selectedCategoryId:0})} /></td>
+                    <td><button className="btn btn-primary" onClick={() => this.onBtnUpdateClick(item.id)} style={{ fontSize: "14px" }}><i className="fa fa-save fa-lg" aria-hidden="true"></i> Save</button></td>
+                    <td><button className="btn btn-secondary"  onClick={() => this.setState({selectedCategoryId:0})}style={{ fontSize: "14px" }}><i className="fa fa-undo fa-lg" aria-hidden="true"></i> Cancel</button></td>
                 </tr>
             )
         })

@@ -62,7 +62,7 @@ onBtnCart = () => {
         var { nama, harga, image, description } = this.props.product;
         return(
             <div>
-                 <section className="bg-light" >
+            <section className="bg-light" >
            
             <div className="container">
             <div className="row">

@@ -97,7 +97,7 @@ class History extends Component {
                     </div>
                     <div className="table-responsive card shadow p-3 mb-5 bg-white rounded">
                         <table align="center" className="table table-bordered col-lg-8 justify-content-center">
-                            <thead className="thead-blue">
+                        <thead className="thead-light">
                                 <tr className="table table-bordered table-dark text-center text-dark">
                                     <th scope="col"  style={{fontSize: '16px', }}>TrxId</th>
                                     <th scope="col"  style={{fontSize: '16px', }}>ProductId</th>

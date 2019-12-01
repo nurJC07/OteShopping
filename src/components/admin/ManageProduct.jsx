@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import {SideBar} from './SideBar'
-import { CustomInput} from 'reactstrap';
+import {SideBar} from './SideBar';
+import {Col, Button, CustomInput, FormGroup, FormText, Form,Label, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import {API_URL} from '../../supports/api_url'
 
 
@@ -17,7 +17,15 @@ class ManageProduct extends Component {
         listAllCategory: [],
         
         AddProductImage: 'Pilih Gambar', 
-        EditProductImage: 'Pilih Gambar' 
+        EditProductImage: 'Pilih Gambar',
+
+        activePage: 1, 
+        tampilPerPage: 4, 
+        totalItem: 0, 
+        totalPage: null, 
+        startIndex: 0, 
+        finishIndex: 0, 
+        listPage: []   
         
         }
 
@@ -29,17 +37,40 @@ class ManageProduct extends Component {
     getProduct = () => {
         axios.get(API_URL +'/product/getlistproduct')
         .then((res) => {
-            console.log(res.data)
+            console.log(res.data.namaCategory)
             this.setState({
                 productList: res.data,
                 selectedProductId: 0 
-            });   
+            });  
+            this.setState({totalItem: this.state.productList.length});
+            //console.log(this.state.totalItem);
+            this.setState({totalPage: Math.ceil(this.state.totalItem / this.state.tampilPerPage)}) 
+           
           
         }).catch((err) => {
             console.log(err);
         })
         
     }
+    renderPagination = () => {
+        const pageNumber =[]
+        if(this.state.totalPage !== null){
+            for (let i = 1; i <= this.state.totalPage; i++) {
+                pageNumber.push(i)
+        }
+
+        }
+       
+
+        var listPageJSX = pageNumber.map((item) => {
+
+            
+            return <li key={item} className="page-item" onClick={() => this.setState({activePage: item})}>
+                <button className="page-link" >{item}</button></li>
+        }) 
+       
+        return listPageJSX;
+    }    
 
         getCategoryList = () => {
             axios.get(API_URL + '/category/getlistcategory')
@@ -108,6 +139,8 @@ class ManageProduct extends Component {
             alert('Image harus diisi!')
         }
     }
+
+   
 
     onBtnDeleteClick = (id) => {
         console.log(id)
@@ -181,7 +214,10 @@ class ManageProduct extends Component {
 
 
     renderProductList = () => {
-        var listJSX = this.state.productList.map((item) => {
+
+        var { activePage, tampilPerPage } = this.state
+        var listJSX = this.state.productList.slice( (activePage-1)*tampilPerPage, (activePage*tampilPerPage)).map((item) => {
+
         if(item.id === this.state.selectedProductId) {
             return (
                 <tr key={item.id}>
@@ -194,8 +230,8 @@ class ManageProduct extends Component {
                     <td><input type="number" ref="EditProductPrice" defaultValue={item.harga} /></td>
                     <td><CustomInput type="file" id="EditProductImage" name="EditProductImage" label={this.state.EditProductImage} onChange={this.onEditFileImageChange} /></td>
                     <td><textarea name="description" rows="5" cols="40" ref="EditProductDesc" defaultValue={item.description} /></td>
-                    <td><input type="button" className="btn btn-primary" value="Save" onClick={() => this.onBtnUpdateClick(item.id)} /></td>
-                    <td><input type="button" className="btn btn-primary" value="Cancel" onClick={() => this.setState({ selectedProductId: 0 })} /></td>
+                    <td><button className="btn btn-primary" onClick={() => this.onBtnUpdateClick(item.id)} style={{ fontSize: "14px" }}><i className="fa fa-save fa-lg" aria-hidden="true"></i> Save</button></td>
+                    <td><button className="btn btn-secondary" onClick={() => this.setState({ selectedProductId: 0 })}style={{ fontSize: "14px" }}><i className="fa fa-undo fa-lg" aria-hidden="true"></i> Cancel</button></td>                 
                 </tr>
             )
             }
@@ -207,9 +243,9 @@ class ManageProduct extends Component {
                     <td>Rp. {item.harga.toLocaleString()}</td>
                     <td><img src={`${API_URL}${item.image}`} alt={item.nama}  width={100} /></td>
                     <td>{item.description}</td>
-                    <td><input type="button" className="btn btn-primary" value="Edit" onClick={() => this.setState({selectedProductId:item.id})} /></td>
-                    <td><input type="button" className="btn btn-danger" value="Delete" onClick={() => this.onBtnDeleteClick(item.id)} /></td>  
-                </tr>
+                        <td><button className="btn btn-success" onClick={() => this.setState({selectedProductId:item.id})} style={{ fontSize: "14px" }}><i className="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</button></td>
+                    <td><button className="btn btn-danger" onClick={() => this.onBtnDeleteClick(item.id)} style={{ fontSize: "14px" }}><i className="fa fa-trash-o fa-lg" ></i> Delete</button></td>
+               </tr>
             )
         })
         return listJSX;
@@ -217,6 +253,7 @@ class ManageProduct extends Component {
 
 
     render() {
+        var { activePage, totalPage,productList } = this.state
         if(this.props.username !== "" ){
         return (
             <div className="card bg-light" style={{ padding: "20px", fontSize: "13px" }}>
@@ -234,7 +271,7 @@ class ManageProduct extends Component {
                 <tr>
                 <th>Id</th>
                 <th>Nama </th>
-                <th>Category</th>
+                <th>Category </th>
                 <th>Harga</th>
                 <th>Image</th>
                 <th>Description</th>
@@ -245,21 +282,108 @@ class ManageProduct extends Component {
             <tbody>
                 {this.renderProductList()}
             </tbody>
-            <tfoot>
-                <tr>
-                <th scope="row"></th>
-                    <td><input type="text" ref="AddProductName" /></td>
-                    <td><select ref="AddProductCategory" className="custom-select" style={{ fontSize: "12px" }}> {this.renderAllCategory()} </select></td>                               
-                    <td><input type="number" ref="AddProductPrice" /></td>
-                    <td><CustomInput type="file" id="AddProductImage" name="AddProductImage" label={this.state.AddProductImage} onChange={this.onAddFileImageChange} /></td>
-                    <td><textarea name="description" rows="5" cols="40" ref="AddProductDesc" /></td>
-                    <td><input type="button" className="btn btn-success" value="Add" onClick={this.onBtnAddClick} /></td>
-                    <td></td>
-                </tr>
-            </tfoot>
+            
             </table>
+          
             </div>
+            <div className= "mr-auto">
+                        <button className="btn btn-info"  onClick={(e)=>{this.setState({isOpen:true})}}><i className="fa fa-align-justify fa-lg" ></i> Add New Product
+                   </button> 
+                        </div>
+                       
             </div>
+           
+            <div>
+             
+            </div>
+            <div>
+           
+            <Modal isOpen={this.state.isOpen} className={'modal-success ' + this.props.className}>
+          <ModalHeader  
+            toggle   = {(e) =>{this.setState({isOpen:true})}}
+            onClick  ={(e)=>{this.setState({isOpen:false})}}>Add New Product</ModalHeader>
+          <ModalBody> 
+          <Form  className="form-horizontal">
+          <FormGroup row>                  
+          </FormGroup>
+          <FormGroup row>
+          <Col md="3">
+          <Label htmlFor="text-input">Product Name</Label>
+          </Col>
+          <Col xs="12" md="9">
+          <input type="text" ref="AddProductName" placeholder="Please Enter Product Name" />
+          </Col>
+        </FormGroup>               
+        <FormGroup row>
+        <Col md="3">
+        <Label htmlFor="select">Category Type</Label>
+        </Col>
+        <Col xs="12" md="9">
+        <select  ref="AddProductCategory" >
+        <option value="">Select Category</option> {this.renderAllCategory()}
+        </select>
+        </Col>
+        </FormGroup>  
+        <FormGroup row>
+        <Col md="3">
+          <Label htmlFor="text-input">Value</Label>
+        </Col>
+        <Col xs="12" md="4">
+          <input type="number" ref="AddProductPrice"  name="text-input"  /> 
+        </Col>
+      </FormGroup>                  
+      <FormGroup row>
+      <Col md="3">
+        <Label htmlFor="text-input">Image</Label>
+        </Col>
+        <Col xs="12" md="4">
+        <CustomInput type="file" id="AddProductImage" name="AddProductImage" label={this.state.AddProductImage} onChange={this.onAddFileImageChange} />
+        </Col>
+      </FormGroup>    
+      <FormGroup row>
+        <Col md="3">
+          <Label>Description</Label>
+        </Col>
+        
+        <Col xs="12" md="4">
+        <textarea name="description" rows="5" cols="40" ref="AddProductDesc" />
+        </Col>
+          
+        </FormGroup> 
+        </Form>
+          </ModalBody>
+          <ModalFooter>
+              <Button color="success" onClick={this.onBtnAddClick}>Create Alert</Button>{' '}
+          </ModalFooter>
+          </Modal>
+
+            <div className="row">
+                <div className="col">
+            <ul className="pagination">
+            <li className="page-item">
+                        <button className="page-link" href="#" onClick={() => this.setState({activePage: 1})}><span aria-hidden="true">first</span></button>
+                    </li>
+                
+                    <li className="page-item">
+                        <button className="page-link" href="#" onClick={() => this.setState({activePage: activePage-1})}aria-label="Previous"><span aria-hidden="true">&laquo;</span></button>
+                    </li>
+                    {this.renderPagination()}
+                    <li className="page-item">
+                        <button className="page-link" href="#" aria-label="Next" onClick={() => this.setState({activePage: activePage+1})}><span aria-hidden="true">&raquo;</span></button>
+                    </li>
+                    <li className="page-item">
+                        <button className="page-link" href="#" onClick={() => this.setState({activePage: totalPage})}aria-label="last"><span aria-hidden="true">last</span></button>
+                    </li>
+                    
+                    
+                    
+                    
+                </ul>
+                </div>
+                
+            
+            </div>
+        </div>
             </div>
             </div>
             </div>

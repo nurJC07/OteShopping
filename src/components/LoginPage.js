@@ -54,9 +54,9 @@ class LoginPage extends Component {
                 
                     <form className="border mb-3" style={{padding:"20px", borderRadius:"5%"}} ref="formLogin">
                         <fieldset>
-                            <legend><center><img src={logo} alt="store logo" height={50} width={250}/><p>Nice To See You Again!</p></center></legend>
-                            <center><h6>Demo Account</h6>
-                            <h6>Username: Admin/User<br/>Password: 1234abcd </h6><br/>
+                            <legend><center><img src={logo} alt="store logo" height={50} width={250}/></center></legend>
+                            <center><p>Demo Account</p>
+                            <p>Username: Admin/User<br/>Password: 1234abcd </p><br/>
                             </center>
                             <div className="form-group row">
                             <label className="col-sm-3 col-form-label">Username</label>

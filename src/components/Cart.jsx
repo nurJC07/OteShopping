@@ -121,9 +121,9 @@ class Cart extends Component {
         if(!this.state.listCart.length) {
             renderButton = <button className="btn btn-success" style={{ fontSize: "13px" }} onClick={ () => this.onBtnClick() }>Ayo Belanja Lagi?</button>
         } else {
-            renderButton = <div>
-                <button className="btn btn-info btn-lg btn-block" style={{ fontSize: "13px"}} onClick={() => this.onBtnClick()}>Mau Belanja Lagi ?</button>
-                <br />
+            renderButton = <div> 
+                <button className="btn btn-info " style={{ fontSize: "13px"}} onClick={() => this.onBtnClick()}>Mau Belanja Lagi ?</button>
+                <br /><br />
                 <input type="button" className="btn btn-success" style={{ fontSize: "13px"}} value="Checkout" onClick={this.onBtnCheckoutClick} />
             </div>
         }
@@ -141,9 +141,11 @@ class Cart extends Component {
                         <td>Rp. {item.harga.toLocaleString()}</td>
                         <td>{item.qty}</td>
                         <td>Rp. {(item.harga*item.qty).toLocaleString()}</td>
-                        <td><input className="btn btn-primary" type="button" value="Edit" onClick={() => this.setState({ selectedIdEdit: item.id })} /></td>
-                        <td><input className="btn btn-danger" type="button" value="Remove" onClick={() => this.onBtnDeleteClick(item.id)} /></td>
-                    </tr> )
+                        <td><button className="btn btn-success" onClick={() => this.setState({ selectedIdEdit: item.id })} style={{ fontSize: "14px" }}><i className="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Edit</button></td>
+                        <td><button className="btn btn-danger" onClick={() => this.onBtnDeleteClick(item.id)} style={{ fontSize: "14px" }}><i className="fa fa-trash-o fa-lg" aria-hidden="true"></i> Delete</button></td>
+                    </tr> ) 
+
+
             }
             
             return (
@@ -158,9 +160,10 @@ class Cart extends Component {
                         />
                     </td>
                     <td>Rp. {(item.harga*item.qty).toLocaleString()}</td>
-                    <td><input className="btn btn-primary" type="button" value="Save" onClick={() => this.onBtnSaveClick(item)} /></td>
-                    <td><input className="btn btn-danger" type="button" value="Cancel" onClick={() => this.setState({ selectedIdEdit: 0 })} /></td>
-                </tr> )
+                    <td><button className="btn btn-primary" onClick={() => this.onBtnSaveClick(item)} style={{ fontSize: "14px" }}><i className="fa fa-save fa-lg" aria-hidden="true"></i> Save</button></td>
+                    <td><button className="btn btn-secondary"  onClick={() => this.setState({ selectedIdEdit: 0 })} style={{ fontSize: "14px" }}><i className="fa fa-undo fa-lg" aria-hidden="true"></i> Cancel</button></td>
+                </tr> 
+                )
             
         })
         return listJSXProduk;
@@ -169,7 +172,9 @@ class Cart extends Component {
     render() {
         if(this.props.username !== "" && this.props.role!=="Admin"){ 
         return (
-            <div className="container-fluid">
+            <div>
+            <section className="bg-light" id="portfolio">
+            <div className="container-fluid"></div>
             <div className="col-md-10 offset-md-1" style={{ padding: "20px", fontSize: "13px" }}>
             <div className="row">
             <div className="col-md-10 offset-md-1 text-center">
@@ -194,21 +199,16 @@ class Cart extends Component {
                 {this.renderBodyProduct()}
             </tbody>
             </table>
-            <div ClassName="col-lg">   
+            <div className="col-lg">   
             <h2 className="btn btn-danger "style={{ padding: "10px", fontSize: "15px" }} > 
             Total Price : Rp. {(this.state.totalPrice).toLocaleString()}</h2>
             </div>
-            <br/>
-            <div >
-            <center>
-            <td colSpan="8">
-            <div align="center">{this.renderButton()}</div>
-            </td>
-            </center>
-            </div>
+            <br/>          
+            <div>{this.renderButton()}</div>     
             </div>          
-            </div> 
-            </div>   
+            </div>  
+             </section>
+             </div>
         )
         }
         return <Redirect to ='/login'/>
