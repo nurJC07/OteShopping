@@ -128,7 +128,8 @@ class ManageProduct extends Component {
             axios.post(API_URL + '/product/addproduct', formData, headers)
             .then((res) => {
                 alert("Add Product Success")
-                this.setState({ productList: res.data })
+                this.setState({ productList: res.data });
+                this.getProduct();
                 console.log(data)
             })
             .catch((err) =>{
@@ -172,25 +173,46 @@ class ManageProduct extends Component {
             description     : this.refs.EditProductDesc.value
         }
 
+
         if(document.getElementById('EditProductImage')){
             formData.append('image', document.getElementById('EditProductImage').files[0])
-        }
-        formData.append('data', JSON.stringify(data))
-        console.log(data);
-        
-        axios.put(API_URL + '/product/editproduct/' + id, formData, headers)
+            }
+            formData.append('data', JSON.stringify(data))
+
+        axios.put(API_URL + '/product/editproduct/'+id, formData, headers)
         .then((res) => {
-            console.log(data);
             alert("Edit Product Success")
-            this.setState({ productList: res.data,
-                 selectedProductId: 0 })
+            this.setState({ productList: res.data, 
+            selectedProductId: 0 })
         })
         .catch((err) =>{
-            console.log('data tidak terupdate')
+            console.log(err)
         })
-.catch((err) => {
-        console.log(err);
-    })
+
+
+
+
+
+
+//         if(document.getElementById('EditProductImage')){
+//             formData.append('image', document.getElementById('EditProductImage').files[0])
+//         }
+//         formData.append('data', JSON.stringify(data))
+//         console.log(data);
+        
+//         axios.put(API_URL + '/product/editproduct/' + id, formData, headers)
+//         .then((res) => {
+//             console.log(data);
+//             alert("Edit Product Success")
+//             this.setState({ productList: res.data,
+//                  selectedProductId: 0 })
+//         })
+//         .catch((err) =>{
+//             console.log('data tidak terupdate')
+//         })
+// .catch((err) => {
+//         console.log(err);
+//     })
 }
 
 
@@ -202,7 +224,6 @@ class ManageProduct extends Component {
             this.setState({AddProductImage: 'Pilih Gambar'})
         }
     }
-
     onEditFileImageChange = () => {
         if(document.getElementById("EditProductImage").files[0] !== undefined) {
             this.setState({EditProductImage: document.getElementById("EditProductImage").files[0].name})
@@ -211,6 +232,7 @@ class ManageProduct extends Component {
             this.setState({EditProductImage: 'Pilih Gambar'})
         }
     }
+
 
 
     renderProductList = () => {
