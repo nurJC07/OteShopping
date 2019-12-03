@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios'
 import queryString from 'query-string'
 import {API_URL} from '../supports/api_url'
