@@ -60,72 +60,70 @@ onBtnCart = () => {
 
     render() {
         var { nama, harga, image, description } = this.props.product;
-        return(
-            <div>
-            <section className="bg-light" >
-           
-            <div className="container">
-            <div className="row">
-             <div className="row bg-light" style={{padding:"20px"}}>
-                    <div className="col-lg-4" style={{display: "block"}}>
-                        <center>
-                        <div className="card">
-                        <img  src={`${API_URL}${image}`} alt={nama} style={{marginTop: "10px", width:'200px',  paddingLeft:10}} />
-                        </div>
-                        </center>
-                       
-        
-              
-               </div>
-                <div className="col-lg-6" style={{padding :"10px",textAlign:"left"}}>
-                <div className="col">
+        if(this.props.username !== "" && this.props.role!=="Admin"){
+            return(
+                <div>
+                <section className="bg-light" >
+               
+                <div className="container">
                 <div className="row">
-                <h2>{nama}</h2>
-                </div>
-                </div>
-                <div className="row">
-                <div className="col">
-                 <h4 style={{ color: '#ea7f1c', fontSize: "16px" }}>
-                 <div>Rp. {harga.toLocaleString()}</div>
-                </h4>
-                </div>
-               </div>
-               <div className="row">
-               <div className="col">
-                <h4>{description}</h4>
-                </div>
-                </div>
-                <br/>
-                <div className="row">  
-                <div className="col">
-                <input type="number" placeholder="Input Qty" ref="tbQuantity" id="addQty" 
-                    style={{ fontSize: "13px" }} className="form-control" />
+                 <div className="row bg-light" style={{padding:"20px"}}>
+                        <div className="col-lg-4" style={{display: "block"}}>
+                            <center>
+                            <div className="card">
+                            <img  src={`${API_URL}${image}`} alt={nama} style={{marginTop: "10px", width:'200px',  paddingLeft:10}} />
+                            </div>
+                            </center>
+                           
             
-                    </div>           
-               
-            &nbsp;&nbsp;<button className="btn btn-success" style={{ fontSize: "14px" }}
-                    onClick={this.onBtnCart}>
-                <i className="fa fa-shopping-cart fa-sm"></i>
-                &nbsp;&nbsp; Add to Cart
-                </button>
-               
-                </div>  
-                   
+                  
+                   </div>
+                    <div className="col-lg-6" style={{padding :"10px",textAlign:"left"}}>
+                    <div className="col">
+                    <div className="row">
+                    <h2>{nama}</h2>
+                    </div>
+                    </div>
+                    <div className="row">
+                    <div className="col">
+                     <h4 style={{ color: '#ea7f1c', fontSize: "16px" }}>
+                     <div>Rp. {harga.toLocaleString()}</div>
+                    </h4>
+                    </div>
+                   </div>
+                   <div className="row">
+                   <div className="col">
+                    <h4>{description}</h4>
+                    </div>
+                    </div>
+                    <br/>
+                    <div className="row">  
+                    <div className="col">
+                    <input type="number" placeholder="Input Qty" ref="tbQuantity" id="addQty" 
+                        style={{ fontSize: "13px" }} className="form-control" />
                 
-                <br/><br/>
+                        </div>           
+                   
+                &nbsp;&nbsp;<button className="btn btn-success" style={{ fontSize: "14px" }}
+                        onClick={this.onBtnCart}>
+                    <i className="fa fa-shopping-cart fa-sm"></i>
+                    &nbsp;&nbsp; Add to Cart
+                    </button>
+                   
+                    </div>  
+                       
+                    
+                    <br/><br/>
+                </div>
             </div>
-        </div>
-        </div>
-        </div>
-        </section>
-
-        </div>
-       
-       
-        
-  
-
-)
+            </div>
+            </div>
+            </section>
+    
+            </div> 
+    )
+        }
+        return <Redirect to ='/login'/>     
 }
 }
 
@@ -133,6 +131,7 @@ const mapStateToProps = (state) => {
     return { 
         product: state.selectedProduct,
         username: state.auth.username,
+        role : state.auth.role,
       
 }
 }

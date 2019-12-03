@@ -8,7 +8,7 @@ import Jumbotron from './Jumbotron';
 class HomePage extends Component {
 
   render() {
-          if(this.props.role === "Admin") {
+          if(this.props.username !== "" && this.props.role === "Admin") {
             return <Redirect to="/admin/dashboard" />
           } 
           if(this.props.role === 'User' && this.props.status === "Unverified") {
@@ -43,9 +43,10 @@ class HomePage extends Component {
 
 
 const mapStateToProps = (state) => {
-  return { username: state.auth.username, 
+  return { 
+    username: state.auth.username, 
     role: state.auth.role,
-  status: state.auth.status }
+    status: state.auth.status }
 }
 
 export default connect(mapStateToProps)(HomePage);
