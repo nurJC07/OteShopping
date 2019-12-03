@@ -188,33 +188,7 @@ class ManageProduct extends Component {
         .catch((err) =>{
             console.log(err)
         })
-
-
-
-
-
-
-//         if(document.getElementById('EditProductImage')){
-//             formData.append('image', document.getElementById('EditProductImage').files[0])
-//         }
-//         formData.append('data', JSON.stringify(data))
-//         console.log(data);
-        
-//         axios.put(API_URL + '/product/editproduct/' + id, formData, headers)
-//         .then((res) => {
-//             console.log(data);
-//             alert("Edit Product Success")
-//             this.setState({ productList: res.data,
-//                  selectedProductId: 0 })
-//         })
-//         .catch((err) =>{
-//             console.log('data tidak terupdate')
-//         })
-// .catch((err) => {
-//         console.log(err);
-//     })
 }
-
 
     onAddFileImageChange = () => {
         if(document.getElementById("AddProductImage").files[0] !== undefined) {
@@ -276,7 +250,7 @@ class ManageProduct extends Component {
 
     render() {
         var { activePage, totalPage,productList } = this.state
-        if(this.props.username !== "" ){
+        if(this.props.username !== "" && this.props.role==="Admin"){
         return (
             <div className="card bg-light" style={{ padding: "20px", fontSize: "13px" }}>
             <div className="row">

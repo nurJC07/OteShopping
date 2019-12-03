@@ -38,7 +38,7 @@ class ManageUser extends Component {
         }
 
     render() {
-        if(this.props.username !== "" ){
+        if(this.props.username !== "" && this.props.role==="Admin"){
         return ( 
             <div className="card bg-light" style={{ padding: "20px", fontSize: "13px" }}>
             {/* <style>{"tr{border-top: hidden;}"}</style> */}
